@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "build": "npm install && cd tests && npm install && cd ..",
         "test": "npx jest ./tests/"
     },
     "keywords": [
