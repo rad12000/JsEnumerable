@@ -1,4 +1,4 @@
-const LinkedNode = require("../index").default;
+const LinkedNode = require("linked-nodes").default;
 const classInstance = new LinkedNode();
 const className = classInstance.constructor.name;
 
@@ -57,7 +57,7 @@ describe(`${className}.size`, () => {
     });
 });
 
-describe(`${className}.${classInstance.movePrevious}()`, () => {
+describe(`${className}.${classInstance.movePrevious.name}()`, () => {
     test("it should give the values back backwards", () => {
         // Arrange
         const originalArr = [1, 2, 3, 4, 5];
@@ -70,6 +70,38 @@ describe(`${className}.${classInstance.movePrevious}()`, () => {
         let i = 0;
         while (list.movePrevious()) {
             expect(list.value).toBe(reversedArr[i++]);
+        }
+    });
+});
+
+describe(`${className}.${classInstance.where.name}()`, () => {
+    test("it should filter out the correct values", () => {
+        // Arrange
+        const originalArr = [1, 2, 3, 4, 5];
+        const list = LinkedNode.fromArray([...originalArr]);
+
+        // Act
+        const expected = originalArr.filter((val) => val > 3);
+        const actual = list.where((val) => val > 3);
+
+        // Assert
+        expect(actual.toString()).toBe(expected.toString());
+    });
+});
+
+describe(`${className}.${classInstance.add.name}()`, () => {
+    test("it should add value to the end", () => {
+        // Arrange
+        const list = new LinkedNode("link 1");
+
+        // Act
+        list.add("link 2");
+        list.add("link 3");
+
+        // Assert
+        for (let i = 1; i < 4; i++) {
+            list.moveNext();
+            expect(list.value).toBe(`link ${i}`);
         }
     });
 });
