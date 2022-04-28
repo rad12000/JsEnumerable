@@ -2,6 +2,7 @@
 
 ## Description
 
+Requires node version >= 14.x.
 The `linked-nodes` package brings simple linked list/enumerable features to JavaScript.
 
 ## Constructing
