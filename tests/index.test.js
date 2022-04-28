@@ -15,9 +15,9 @@ describe(`${className}.${LinkedNode.fromArray.name}()`, () => {
 
         // Act & Assert
         let i = 0;
-        while (list.moveNext()) {
+        do {
             expect(list.value).toBe(startArr[i++]);
-        }
+        } while (list.moveNext());
     });
 });
 
@@ -57,6 +57,23 @@ describe(`${className}.size`, () => {
     });
 });
 
+describe(`${className}.${classInstance.moveNext.name}()`, () => {
+    test("it should iterate only once", () => {
+        // Arrange
+        const list = new LinkedNode("My only val");
+
+        // Act & Assert
+        let count = 0;
+        do {
+            count++;
+            expect(list.value).toBe("My only val");
+        } while (list.moveNext());
+
+        expect(list.value).not.toBe(null);
+        expect(count).toBe(1);
+    });
+});
+
 describe(`${className}.${classInstance.movePrevious.name}()`, () => {
     test("it should give the values back backwards", () => {
         // Arrange
@@ -64,13 +81,16 @@ describe(`${className}.${classInstance.movePrevious.name}()`, () => {
         const reversedArr = [...originalArr].reverse();
         const list = LinkedNode.fromArray(originalArr);
 
-        while (list.moveNext()) {}
+        do {} while (list.moveNext());
 
         // Act & Assert
         let i = 0;
-        while (list.movePrevious()) {
+
+        do {
             expect(list.value).toBe(reversedArr[i++]);
-        }
+        } while (list.movePrevious());
+
+        expect(i).toBe(originalArr.length);
     });
 });
 
@@ -100,8 +120,25 @@ describe(`${className}.${classInstance.add.name}()`, () => {
 
         // Assert
         for (let i = 1; i < 4; i++) {
-            list.moveNext();
             expect(list.value).toBe(`link ${i}`);
+            list.moveNext();
         }
+    });
+});
+
+describe(`${className}.${classInstance.forEach.name}()`, () => {
+    test("it should iterate with the same values as the array", () => {
+        // Arrange
+        const originalArr = [1, 2, 3, 4, 5];
+        const list = LinkedNode.fromArray([...originalArr]);
+
+        // Act
+        const actualArr = [];
+        list.forEach((val) => {
+            actualArr.push(val);
+        });
+
+        // Assert
+        expect(originalArr.toString()).toBe(actualArr.toString());
     });
 });

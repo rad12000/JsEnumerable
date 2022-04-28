@@ -1,8 +1,7 @@
 class LinkedNode {
     #current;
-    #isRead;
     #lastNode;
-    _last;
+    _previous;
     _next;
     _value;
 
@@ -13,9 +12,8 @@ class LinkedNode {
      */
     constructor(value, next = null) {
         this.#current = this;
-        this.#isRead = false;
         this.#lastNode = this;
-        this._last = null;
+        this._previous = null;
         this._value = value;
         if (next) {
             this.next = next;
@@ -51,7 +49,7 @@ class LinkedNode {
      */
     set next(node) {
         this.#current._next = node;
-        this.#current._next._last = this.#current;
+        this.#current._next._previous = this.#current;
         this.#setLastNode();
     }
     /**
@@ -60,15 +58,6 @@ class LinkedNode {
      */
     moveNext() {
         const canMoveNext = this.#current._next ? true : false;
-
-        if (this.#current === this) {
-            if (!this.#isRead) {
-                this.#isRead = true;
-                return canMoveNext;
-            } else {
-                this.#isRead = false;
-            }
-        }
 
         if (canMoveNext) {
             this.#current = this.#current._next;
@@ -82,20 +71,12 @@ class LinkedNode {
      * @returns {boolean} a bool reflecting if there is a node at this location.
      */
     movePrevious() {
-        const canMoveLast = this.#current._last ? true : false;
-
-        if (this.#current === this.#lastNode) {
-            if (!this.#isRead) {
-                this.#isRead = true;
-                return canMoveLast;
-            } else {
-                this.#isRead = false;
-            }
-        }
+        const canMoveLast = this.#current._previous ? true : false;
 
         if (canMoveLast) {
-            this.#current = this.#current._last;
+            this.#current = this.#current._previous;
         }
+
         return canMoveLast;
     }
 
@@ -105,17 +86,49 @@ class LinkedNode {
      */
     toArray() {
         // Move to end of the list
-        while (this.movePrevious()) {}
+        do {} while (this.movePrevious());
 
         const arr = [];
 
-        while (this.moveNext()) {
+        do {
             arr.push(this.#current.value);
-        }
+        } while (this.moveNext());
 
         return arr;
     }
 
+    /**
+     * Stringifies the LinkedNode
+     * @returns {string}
+     */
+    toString() {
+        return this.toArray().toString();
+    }
+
+    /**
+     * Adds a new {@link LinkedNode} to the last node in the list.
+     * @param {any} value The value of the new {@link LinkedNode}
+     * @returns {LinkedNode}
+     */
+    add(value) {
+        this.#lastNode.next = new LinkedNode(value);
+
+        return this;
+    }
+
+    /**
+     * This callback type is called `conditionFunc` and is displayed as a global symbol.
+     * @callback conditionFunc
+     * @param {any} nodeValue
+     * @return {boolean} True if the node should be included, false if not.
+     */
+
+    /**
+     * Returns a new filtered set of {@link LinkedNode}s,
+     * based on the provided condition.
+     * @param {conditionFunc} condition A function that determines if the node should be included.
+     * @returns
+     */
     where(condition) {
         let node = this;
         const nodeArr = [];
@@ -132,7 +145,28 @@ class LinkedNode {
     }
 
     /**
+     * This callback type is called `conditionFunc` and is displayed as a global symbol.
+     * @callback callbackfn
+     * @param {any} nodeValue
+     */
+
+    /**
+     * Iterate through each node within the LinkedNode.
+     * DOES NOT advance nodes. Use moveNext for that.
+     * @param {callbackfn} callbackfn
+     */
+    forEach(callbackfn) {
+        let node = this;
+
+        while (node) {
+            callbackfn(node.value);
+            node = node._next;
+        }
+    }
+
+    /**
      * Creates a LinkedNode from an array.
+     * @callback conditioncallFunc
      * @param {any[]} array
      * @returns {LinkedNode}
      */
@@ -152,9 +186,11 @@ class LinkedNode {
 
     #setLastNode() {
         let node = this;
+
         while (node._next) {
             node = node._next;
         }
+
         this.#lastNode = node;
     }
 }

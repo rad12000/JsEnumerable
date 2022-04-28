@@ -1,12 +1,19 @@
 {
-    "name": "js-enumerable",
-    "version": "1.0.0",
+    "name": "linked-nodes",
+    "version": "1.0.1",
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "jest",
-        "start": "node example.js"
+        "test": "npx jest ./tests/"
     },
+    "keywords": [
+        "js list",
+        "js linked list",
+        "js enumerable",
+        "js array",
+        "javascript",
+        "js"
+    ],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/rad12000/JsEnumerable.git"
@@ -16,8 +23,5 @@
     "bugs": {
         "url": "https://github.com/rad12000/JsEnumerable/issues"
     },
-    "homepage": "https://github.com/rad12000/JsEnumerable#readme",
-    "devDependencies": {
-        "jest": "^28.0.2"
-    }
+    "homepage": "https://github.com/rad12000/JsEnumerable#readme"
 }
