@@ -1,0 +1,23 @@
+{
+    "name": "js-enumerable",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest",
+        "start": "node example.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rad12000/JsEnumerable.git"
+    },
+    "author": "rad12000",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/rad12000/JsEnumerable/issues"
+    },
+    "homepage": "https://github.com/rad12000/JsEnumerable#readme",
+    "devDependencies": {
+        "jest": "^28.0.2"
+    }
+}
